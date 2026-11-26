@@ -211,11 +211,18 @@
   .vbox{padding:clamp(32px, 4%, 64px) 0}     /* no mínimo 32px em cima e embaixo */
   /* vídeo sem fundo (branco sobre branco): sem respiro em cima e compensando a margem branca do próprio vídeo,
      para a distância visual até o título ficar igual à das mídias com container colorido */
-  .media .vbox.vbox-bare{padding-top:0;margin-top:calc(-80 / 1920 * 100% + 16px)}
+  .media .vbox.vbox-bare{padding-top:0;margin-top:calc(16px - min(80 / 1920 * 100%, 80 / 1080 * var(--vh-max)))}
   /* vídeo que ocupa o container inteiro: sem respiro nem fundo do container, então não há emenda de cor */
   .media .vbox.vbox-fill{padding:0;background:transparent}
   .vbox.vbox-fill video{max-width:none}
-  .vbox video{width:100%;height:auto;max-width:calc((920px - 128px) * 16 / 9);display:block}
+  /* altura máxima confortável para os vídeos de linha única: o vídeo nunca passa de ~62% da tela (600px no máximo),
+     e o container cinza cresce na largura, não na altura */
+  :root{--vh-max:clamp(320px, 62vh, 600px)}
+  .vbox video{width:auto;height:auto;max-width:100%;max-height:var(--vh-max);display:block}
+  @media (max-width:759px){
+    .media .vbox.vbox-gray{padding:0}   /* no celular o vídeo ocupa o container inteiro: sem emenda entre os cinzas */
+    .vbox video{width:100%}
+  }
 
 
   /* =========================================================
@@ -619,7 +626,7 @@
       </div>
       <div class="media media-follow tok-row">
         <!-- Loop: Callout alternando Discovery → Informative → Warning, com os tokens trocando junto -->
-        <div class="vbox vbox-fill">
+        <div class="vbox vbox-gray">
           <video src="assets/rewards-callout-types.mp4" poster="assets/rewards-callout-types-poster.jpg"
                  width="1800" height="1050" autoplay muted loop playsinline preload="metadata"
                  aria-label="Callout component switching between its Discovery, Informative and Warning types; the Layout and Content color tokens change with each type while Content Primary and Content Secondary stay the same"></video>

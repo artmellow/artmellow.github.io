@@ -118,6 +118,12 @@
     text-wrap:balance;               /* quebra as linhas em comprimentos parecidos: sem palavra sozinha na última linha */
   }
   .statement .soft{display:block;color:var(--muted)}
+  /* No celular, os títulos correm como texto contínuo: sem quebra forçada entre as duas vozes e sem balancear linhas */
+  @media (max-width:759px){
+    .statement,.breathe,.hero h1{text-wrap:wrap;max-width:none}
+    .statement .soft,.breathe .soft{display:inline}
+    .hero h1 br{display:none}
+  }
   .media{display:grid;gap:calc(var(--u)*2)}
   .chapter .media{margin-top:0}
   .media > *{background:var(--media-bg);border-radius:6px;overflow:hidden}
@@ -445,7 +451,7 @@
     <span class="place">Brazilian, based in São Pedro, SP</span>
   </header>
 
-  <h1 class="reveal">Hi. I'm Artur.<br>Product Designer specialized in Design Systems, currently working on <em>Santander</em></h1>
+  <h1 class="reveal">Hi. I'm Artur. <br>Product Designer specialized in Design Systems, currently working on <em>Santander</em></h1>
 
   <ul class="links">
     <li><a href="https://www.linkedin.com/in/arturciaramello/" target="_blank" rel="noopener">Linkedin</a></li>
@@ -828,7 +834,7 @@
     </section>
 
     <section class="chapter text reveal">
-      <h2 class="statement">Rewards was designed to make the right decisions easier <span class="soft">And the wrong ones harder.</span></h2>
+      <h2 class="statement">Rewards was designed to make the right decisions easier. <span class="soft">And the wrong ones harder.</span></h2>
     </section>
 
     <p class="breathe text reveal">That's it for RewarDS. <span class="soft">New cases are on the way.</span></p>

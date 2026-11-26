@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artur Ciaramello — Designer</title>
+<meta name="description" content="Product Designer specialized in Design Systems.">
+<meta property="og:title" content="Artur Ciaramello — Designer">
+<meta property="og:description" content="Product Designer specialized in Design Systems.">
+<meta property="og:type" content="website">
+<!-- <meta property="og:image" content="assets/og.jpg"> -->
+<link rel="preload" href="assets/fonts/Geist-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Geist-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* Geist (SIL Open Font License), hospedada junto com o site */
+  @font-face{font-family:"Geist";src:url("assets/fonts/Geist-Regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+  /* fontes da Esfera, usadas só nos cards de foundations (SIL Open Font License) */
+  @font-face{font-family:"Poppins";src:url("assets/fonts/Poppins-Medium.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+  @font-face{font-family:"Open Sans";src:url("assets/fonts/OpenSans-Regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:"Open Sans";src:url("assets/fonts/OpenSans-SemiBold.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
+  @font-face{font-family:"Geist";src:url("assets/fonts/Geist-Medium.woff2") format("woff2");font-weight:500 600;font-style:normal;font-display:swap}
+  /* =========================================================
+     SISTEMA — mude aqui e o site inteiro acompanha
+     ========================================================= */
+  :root{
+    --bg:#ffffff;                    /* fundo do conteúdo dos cases */
+    --fg:#111111;
+    --muted:#8a8a8a;
+    --line:#e6e6e6;
+    --media-bg:#f2f2f2;
+    --img-bg:#f5f5f5;               /* fundo das imagens exportadas */
+    --pill:#f0f0f0;
+    --accent:#EC5B4B;                /* cor de destaque: empresa atual + faixa */
+    --indent:14.5%;                  /* coluna onde o texto do hero começa */
+
+    --u:8px;                         /* unidade base: todo espaçamento é múltiplo dela */
+    --gutter:clamp(20px, 4vw, 48px); /* margem lateral */
+    --max:none;                     /* largura total: mantém o alinhamento com o hero */
+
+    --t-small:14px;
+    --t-body:17px;
+    --t-title:clamp(28px, 4.2vw, 56px);
+    --t-hero:clamp(36px, 3.9vw, 64px);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--fg);
+    font-family:"Geist",system-ui,-apple-system,sans-serif;
+    font-size:var(--t-body);line-height:1.5;   /* parágrafos: 150% */
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  img,video{display:block;width:100%;height:auto}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+
+  /* ---------- Hero (tela cheia) ---------- */
+  .hero{
+    /* o hero mantém o tema escuro, independente do resto da página */
+    --bg:#000000;--fg:#f5f5f5;--muted:#7a7a7a;--pill:#1c1c1c;
+    background:var(--bg);color:var(--fg);
+    min-height:92vh;min-height:92svh;   /* hero ocupa quase a tela inteira */
+    display:grid;grid-template-rows:auto 1fr auto;
+    padding:calc(var(--u)*4) var(--gutter) calc(var(--u)*5);
+  }
+  .top{display:flex;font-size:12px;letter-spacing:.01em}
+  .top .name{width:var(--indent);flex-shrink:0;font-weight:500}
+  .top .place{color:var(--muted)}
+  .hero h1{
+    align-self:center;margin-left:var(--indent);
+    font-size:var(--t-hero);font-weight:500;
+    line-height:1.15;letter-spacing:-0.035em;max-width:31ch;   /* chamadas: 115% */
+  }
+  .hero h1 em{font-style:normal;color:var(--accent)}
+  .hero .links{margin-left:var(--indent)}
+
+  /* ---------- Links (pílulas) ---------- */
+  .links{display:flex;flex-wrap:wrap;gap:var(--u);list-style:none;font-size:12px}
+  .links a{
+    display:inline-block;text-decoration:none;
+    background:var(--pill);border-radius:999px;padding:10px 14px;
+    transition:background .2s,color .2s;
+  }
+  .links a:hover{background:var(--fg);color:var(--bg)}
+
+  /* ---------- Case ---------- */
+  .case{padding-bottom:calc(var(--u)*4)}
+
+  /* Abertura do case: bloco cheio na cor da empresa */
+  .case-intro{
+    --case-color:#D92B0A;
+    width:100vw;margin-left:calc(50% - 50vw);
+    background:var(--case-color);color:#fff;
+    min-height:max(520px, 50vh);min-height:max(520px, 50svh);
+    padding:calc(var(--u)*3) var(--gutter) calc(var(--u)*4);
+    display:grid;
+    grid-template-columns:var(--indent) 1fr;
+    grid-template-rows:auto minmax(calc(var(--u)*16), 1fr) auto;   /* vazio do meio nunca some */
+    /* texto da capa em degraus: 18 desktop → 16 tablet → 14 mobile, line-height 150%
+       letter-spacing em em (-0.04em) = -0.72px em 18px, e acompanha os degraus */
+    font-size:18px;line-height:1.5;letter-spacing:-0.04em;
+  }
+  .label{display:block;font-size:12px;line-height:1.5;letter-spacing:-0.04em;text-transform:uppercase;opacity:.75;margin-bottom:8px}
+  .value{font-weight:500}
+  .ci-company{grid-column:1;grid-row:1}
+  .ci-position{grid-column:2;grid-row:1}
+  .ci-period{grid-column:1;grid-row:3;align-self:end}
+  .ci-details{grid-column:2;grid-row:3;display:grid;gap:calc(var(--u)*4);max-width:72ch}
+  .ci-details p{margin:0}
+
+  /* Capítulos: frase em duas vozes (branca + cinza) e mídia larga */
+  .chapter{margin-top:0}
+  .statement{
+    margin-left:var(--indent);max-width:28ch;
+    font-size:var(--t-title);font-weight:500;
+    line-height:1.15;letter-spacing:-0.03em;
+  }
+  .statement .soft{display:block;color:var(--muted)}
+  .media{display:grid;gap:calc(var(--u)*2)}
+  .chapter .media{margin-top:0}
+  .media > *{background:var(--media-bg);border-radius:6px;overflow:hidden}
+  .media.three{grid-template-columns:repeat(3,1fr);margin-top:calc(var(--u)*2)}
+
+  /* ---------- Cards de foundations (Colors / Type) ---------- */
+  .media.two{grid-template-columns:1fr 1fr;margin-top:calc(var(--u)*2)}
+  .esfera{
+    --e-red:#EC0000; --e-dark:#141414; --e-light:#FFF1F1;
+    container-type:inline-size;
+    aspect-ratio:893/920; position:relative; overflow:hidden; border-radius:6px;
+    font-family:"Geist",system-ui,sans-serif;
+  }
+  .esfera .tag{
+    position:absolute; top:7cqw; font-size:max(12px, 2.2cqw); line-height:1.5;
+    letter-spacing:-0.02em; z-index:2;
+  }
+  .esfera .tag.l{left:6cqw} .esfera .tag.r{right:6cqw;text-align:right}
+  /* Colors: marca à esquerda, escuro e claro à direita */
+  .e-colors{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+  .e-colors .sw{position:relative}
+  .e-colors .sw.red{grid-row:1 / 3;background:var(--e-red)}
+  .e-colors .sw.dark{background:var(--e-dark)}
+  .e-colors .sw.light{background:var(--e-light)}
+    .e-colors .tag{color:#fff}
+  /* Type: duas famílias empilhadas, cada uma com seu "Aa" cortado na base */
+  .e-type{display:grid;grid-template-rows:1fr 1fr}
+  .e-type .face{position:relative;overflow:hidden;color:#fff}
+  .e-type .face.hl{background:var(--e-red)}
+  .e-type .face.base{background:var(--e-dark)}
+  .e-type .face .tag{top:6cqw}
+  .e-type .aa{
+    position:absolute;left:5cqw;bottom:-9cqw;
+    font-size:40cqw;line-height:1;letter-spacing:-0.02em;white-space:nowrap;
+  }
+  .e-type .hl .aa{font-family:"Poppins",sans-serif;font-weight:500}
+  .e-type .base .aa{font-family:"Open Sans",sans-serif;font-weight:400}
+
+  /* Assets de tokens de cor (SVG inline no mesmo cartão das foundations) */
+  .e-tok{background:var(--img-bg)}
+  .e-tok svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .e-tok .tag{color:var(--fg)}
+  .e-tok.e-vid{background:#f3f3f3}
+  .e-tok video{position:absolute;inset:0;width:100%;height:100%;display:block}
+  /* Stat editorial: número gigante cortado na base */
+  .e-stat{background:var(--e-red);color:#fff}
+  .e-stat .tag{color:#fff}
+  .e-stat .stat{
+    position:absolute;left:4cqw;bottom:-7cqw;
+    font-size:47cqw;font-weight:500;line-height:1;letter-spacing:-0.06em;white-space:nowrap;
+  }
+
+  .esfera .tag.r .num{display:block;font-size:max(20px, 5.4cqw);line-height:1.1;letter-spacing:-0.04em;font-weight:500;margin-bottom:.2em}
+  /* Trade-offs: tabela tipográfica em grade, filetes finos, sem cards */
+  .tradeoffs{
+    list-style:none;padding:0;margin:calc(var(--u)*7) 0 0 var(--indent);
+    font-size:18px;line-height:1.5;letter-spacing:-0.04em;border-bottom:1px solid #e4e4e4;
+  }
+  .tradeoffs li{display:grid;grid-template-columns:3.5em 1fr 1fr;column-gap:calc(var(--u)*4)}
+  .to-head{padding-bottom:calc(var(--u)*1.5)}
+  .to-head .label{margin:0}
+  .to-row{padding:calc(var(--u)*3) 0;border-top:1px solid #e4e4e4}
+  .to-n{color:var(--muted);font-variant-numeric:tabular-nums}
+  .to-took h3{margin:0;font-size:inherit;font-weight:500;letter-spacing:inherit}
+  .to-took p{margin:0;color:var(--muted)}
+  .to-ret p{margin:0}
+  .to-lbl{display:none}
+  @media (max-width:1023px){ .tradeoffs{font-size:16px} }
+  @media (max-width:759px){
+    .tradeoffs{font-size:14px;margin-top:calc(var(--u)*5)}
+    .tradeoffs li{grid-template-columns:2.5em 1fr;column-gap:calc(var(--u)*1.5);row-gap:calc(var(--u)*1.5)}
+    .to-head{display:none!important}
+    .to-ret{grid-column:2}
+    .to-lbl{display:block;margin-bottom:2px}
+  }
+  /* Parágrafo descritivo: mesma escala da capa do case (18 → 16 → 14, 150%) */
+  .para{
+    margin:calc(var(--u)*5) 0 0 var(--indent);max-width:60ch;
+    font-size:18px;line-height:1.5;letter-spacing:-0.04em;
+  }
+  @media (max-width:1023px){ .para{font-size:16px} }
+  @media (max-width:759px){ .para{font-size:14px} }
+
+  .e-reuse{background:var(--img-bg);color:var(--fg)}
+  .e-reuse img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  /* Container de vídeo: fundo branco por trás, vídeo centralizado e limitado a 920px de altura */
+  .vbox{background:#fff;display:flex;justify-content:center}
+  .vbox-gray{background:#f3f3f3}
+  .chapter .media.media-follow{margin-top:calc(var(--u)*2)} /* segunda mídia do mesmo capítulo */            /* igual ao fundo exportado do vídeo de decisões locais */
+  /* respiro em cima e embaixo (como mockups num palco), mantendo o total em até 920px */
+  .vbox{padding:clamp(32px, 4%, 64px) 0}     /* no mínimo 32px em cima e embaixo */
+  /* vídeo sem fundo (branco sobre branco): sem respiro em cima e compensando a margem branca do próprio vídeo,
+     para a distância visual até o título ficar igual à das mídias com container colorido */
+  .media .vbox.vbox-bare{padding-top:0;margin-top:calc(-80 / 1920 * 100% + 16px)}
+  /* vídeo que ocupa o container inteiro: sem respiro nem fundo do container, então não há emenda de cor */
+  .media .vbox.vbox-fill{padding:0;background:transparent}
+  .vbox.vbox-fill video{max-width:none}
+  .vbox video{width:100%;height:auto;max-width:calc((920px - 128px) * 16 / 9);display:block}
+
+
+  /* =========================================================
+     Colagem animada do RewarDS (loop de 10s)
+     Coordenadas em px do frame do Figma (1440 × 720), escaladas por --u.
+     ========================================================= */
+  .rw-box{background:var(--img-bg);display:flex;justify-content:center}
+  .rw{
+    --u:calc(100cqw / 1440); --T:10s;
+    --red:#cc0100; --red-h:#af010f; --red-p:#910119; --ink:#141414; --line:rgba(41,41,41,.16);
+    position:relative;width:100%;max-width:1840px;aspect-ratio:1440/720;container-type:inline-size;overflow:hidden;
+    font-family:"Open Sans",system-ui,sans-serif;color:var(--ink);
+  }
+  .rw > *{position:absolute}
+  .rw img{display:block;width:100%;height:100%}
+  .rw .L{left:calc(var(--x)*var(--u));top:calc(var(--y)*var(--u));width:calc(var(--w)*var(--u));height:calc(var(--h)*var(--u))}
+
+  /* Campos */
+  .rw .field{display:flex;flex-direction:column;gap:calc(8*var(--u))}
+  .rw .field b{font-weight:600;font-size:calc(16*var(--u));line-height:1.3}
+  .rw .field span{display:flex;align-items:center;justify-content:space-between;height:calc(56*var(--u));padding:0 calc(16*var(--u));
+    border:max(1px,calc(1*var(--u))) solid var(--line);border-radius:calc(8*var(--u));font-size:calc(16*var(--u))}
+  .rw .field svg{width:calc(24*var(--u));height:calc(24*var(--u))}
+
+  /* Botão: default → hover → pressed → loading → default */
+  .rw .btn{display:flex;align-items:center;justify-content:center;border-radius:calc(8*var(--u));
+    background:var(--red);color:#fff;font-weight:600;font-size:calc(18*var(--u));animation:rw-btn var(--T) infinite}
+  .rw .btn .lbl{animation:rw-btn-lbl var(--T) infinite}
+  .rw .btn .spin{position:absolute;width:calc(22*var(--u));height:calc(22*var(--u));border-radius:50%;
+    border:calc(2.5*var(--u)) solid rgba(255,255,255,.35);border-top-color:#fff;opacity:0;
+    animation:rw-spin .8s linear infinite, rw-btn-spin var(--T) infinite}
+  @keyframes rw-btn{
+    0%,10%{background:var(--red);transform:none}
+    12%,15%{background:var(--red-h);transform:none}
+    16.5%,18%{background:var(--red-p);transform:scale(.985)}
+    19.5%,34%{background:var(--red);transform:none}
+    100%{background:var(--red)}
+  }
+  @keyframes rw-btn-lbl{0%,18.9%{opacity:1}19.5%,33.9%{opacity:0}34.5%,100%{opacity:1}}
+  @keyframes rw-btn-spin{0%,18.9%{opacity:0}19.5%,33.9%{opacity:1}34.5%,100%{opacity:0}}
+  @keyframes rw-spin{to{transform:rotate(360deg)}}
+
+  /* Controles */
+  .rw .ctl{display:flex;align-items:center}
+  .rw .cb,.rw .rb{width:calc(20*var(--u));height:calc(20*var(--u));border:max(1px,calc(1.5*var(--u))) solid var(--red);display:grid;place-items:center}
+  .rw .cb{border-radius:calc(4*var(--u));animation:rw-cb var(--T) infinite}
+  .rw .cb svg{width:calc(14*var(--u));height:calc(14*var(--u));animation:rw-cb-mark var(--T) infinite}
+  .rw .rb{border-radius:50%;background:var(--red)}
+  .rw .rb::after{content:"";width:calc(8*var(--u));height:calc(8*var(--u));border-radius:50%;background:#fff}
+  .rw .sw{width:calc(40*var(--u));height:calc(24*var(--u));border-radius:999px;padding:0 calc(2*var(--u));display:flex;align-items:center;animation:rw-sw var(--T) infinite}
+  .rw .sw i{width:calc(20*var(--u));height:calc(20*var(--u));border-radius:50%;background:#fff;
+    box-shadow:0 calc(2*var(--u)) calc(4*var(--u)) rgba(0,0,0,.06),0 calc(4*var(--u)) calc(8*var(--u)) rgba(0,0,0,.1);animation:rw-knob var(--T) infinite}
+  .rw .sv{width:calc(32*var(--u));height:calc(32*var(--u));border-radius:50%;background:#f5f5f5;display:grid;place-items:center}
+  .rw .sv svg{width:calc(24*var(--u));height:calc(24*var(--u))}
+  .rw .sv path{animation:rw-heart var(--T) infinite}
+  .rw .sp{width:calc(20*var(--u));height:calc(20*var(--u));border-radius:50%;border:calc(2*var(--u)) solid #ddd;border-top-color:var(--red);animation:rw-spin 1s linear infinite}
+  @keyframes rw-cb{0%,57%{background:var(--red);border-color:var(--red)}58%,85%{background:transparent;border-color:rgba(41,41,41,.32)}86%,100%{background:var(--red);border-color:var(--red)}}
+  @keyframes rw-cb-mark{0%,57%{opacity:1}58%,85%{opacity:0}86%,100%{opacity:1}}
+  @keyframes rw-sw{0%,55%{background:var(--red)}56.5%,83%{background:#d6d6d6}84.5%,100%{background:var(--red)}}
+  @keyframes rw-knob{0%,55%{transform:translateX(calc(16*var(--u)))}56.5%,83%{transform:none}84.5%,100%{transform:translateX(calc(16*var(--u)))}}
+  @keyframes rw-heart{0%,59%{fill:#e3000f;stroke:#e3000f}60%,87%{fill:transparent;stroke:#141414}88%,100%{fill:#e3000f;stroke:#e3000f}}
+
+  /* Filtros (Tag Select): Todos → Viagens → Produtos → Todos */
+  .rw .pill{display:flex;align-items:center;justify-content:center;border-radius:999px;font-weight:600;font-size:calc(16*var(--u));
+    border:max(1px,calc(1*var(--u))) solid var(--line);background:transparent;color:var(--ink)}
+  .rw .p1{animation:rw-p1 var(--T) infinite}.rw .p2{animation:rw-p2 var(--T) infinite}.rw .p3{animation:rw-p3 var(--T) infinite}
+  @keyframes rw-p1{0%,47%{background:var(--red);color:#fff;border-color:var(--red)}48%,91%{background:transparent;color:var(--ink);border-color:var(--line)}92%,100%{background:var(--red);color:#fff;border-color:var(--red)}}
+  @keyframes rw-p2{0%,47%{background:transparent;color:var(--ink);border-color:var(--line)}48%,69%{background:var(--red);color:#fff;border-color:var(--red)}70%,100%{background:transparent;color:var(--ink);border-color:var(--line)}}
+  @keyframes rw-p3{0%,69%{background:transparent;color:var(--ink);border-color:var(--line)}70%,91%{background:var(--red);color:#fff;border-color:var(--red)}92%,100%{background:transparent;color:var(--ink);border-color:var(--line)}}
+
+  /* Tooltip "Favoritar" acompanha o favorito desligado */
+  .rw .tip{display:flex;align-items:center;justify-content:center;border-radius:calc(8*var(--u));background:var(--ink);color:#fff;
+    font-weight:600;font-size:calc(14*var(--u));box-shadow:0 calc(4*var(--u)) calc(6*var(--u)) rgba(0,0,0,.04),0 calc(12*var(--u)) calc(16*var(--u)) rgba(0,0,0,.08);
+    animation:rw-tip var(--T) infinite}
+  @keyframes rw-tip{0%,61%{opacity:0;transform:translateY(calc(6*var(--u)))}63%,78%{opacity:1;transform:none}80%,100%{opacity:0;transform:translateY(calc(6*var(--u)))}}
+
+  /* Barra de progresso enche quando o resgate confirma */
+  .rw .bar{border-radius:999px;background:#ededed;overflow:hidden}
+  .rw .bar i{display:block;height:100%;border-radius:999px;background:#ec0001;animation:rw-bar var(--T) infinite}
+  @keyframes rw-bar{0%,35%{width:50%}42%,92%{width:100%}97%,100%{width:50%}}
+
+  /* Toast de confirmação entra após o loading */
+  .rw .toast{animation:rw-toast var(--T) infinite}
+  @keyframes rw-toast{0%,34%{opacity:0;transform:translateY(calc(24*var(--u)))}38%,90%{opacity:1;transform:none}94%,100%{opacity:0;transform:translateY(calc(24*var(--u)))}}
+
+  @media (prefers-reduced-motion:reduce){ .rw *, .rw *::after{animation:none !important} .rw .toast{opacity:1} }
+  /* Versão estática da colagem: sem animação, no estado do frame do Figma,
+     menor que o container para respirar (80% da largura) */
+  .rw-box--static{padding:clamp(32px, 7%, 90px) 0}          /* no máximo, 740 + 2×90 = 920px de altura, como as outras mídias */
+  .rw--static{width:80%;max-width:1480px}
+  .rw--static *, .rw--static *::after{animation:none !important}
+  .rw--static .cb{background:var(--red)}
+  .rw--static .sw{background:var(--red)}
+  .rw--static .sw i{transform:translateX(calc(16*var(--u)))}
+  .rw--static .sv path{fill:#e3000f;stroke:#e3000f}
+  .rw--static .p1{background:var(--red);color:#fff;border-color:var(--red)}
+  .rw--static .bar i{width:50%}
+  .rw--static .toast{opacity:1}
+  .rw--static .sp{border-top-color:var(--red)}
+
+
+
+  /* Mídia sangrada: ocupa a largura total da janela, sem margem lateral nem cantos */
+  .media.bleed{width:100vw;margin-left:calc(50% - 50vw)}
+  html,body{overflow-x:clip}                   /* evita rolagem lateral causada pela barra de rolagem + 100vw */
+  .media.bleed > *{border-radius:0}
+
+  /* imagens: altura máxima de 920px, mantendo a proporção e centralizadas */
+  /* limita pela largura (altura × proporção) para a imagem lazy nunca colapsar em 0px; --ar = largura/altura */
+  /* Container de imagem: fundo igual ao das imagens (#F5F5F5), cantos arredondados,
+     imagem centralizada e limitada a 920px de altura (sobra preenchida pelo fundo) */
+  .ibox{background:var(--img-bg);display:flex;justify-content:center;align-items:center}
+  .vloop{position:relative;container-type:inline-size;background:#f3f3f3}
+  .vloop .tag{position:absolute;top:7cqw;left:6cqw;z-index:2;font-size:max(12px, 2.2cqw);line-height:1.5;letter-spacing:-0.02em;color:#141414}
+  .vloop video{width:100%;height:auto;display:block}
+  .ibox > img{width:100%;height:auto;max-width:calc(920px * var(--ar, 2));display:block}
+
+  .player{position:relative}
+  .sound{
+    position:absolute;right:16px;bottom:16px;z-index:2;
+    font:inherit;font-size:12px;color:#fff;
+    background:rgba(17,17,17,.88);border:0;border-radius:999px;padding:10px 14px;
+    box-shadow:0 4px 14px rgba(0,0,0,.12);
+    cursor:pointer;transition:background .2s,color .2s;
+  }
+  /* No vídeo sangrado, o botão fica centralizado na base: longe da barra de rolagem do desktop e sempre visível. */
+  .media.bleed .sound{right:auto;left:50%;bottom:calc(var(--gutter) + 40px);transform:translateX(-50%)}   /* centralizado na base do vídeo */
+  .sound:hover{background:#fff;color:#111}
+
+  .breathe{
+    margin:calc(var(--u)*24) 0 0 var(--indent);
+    font-size:var(--t-title);font-weight:500;letter-spacing:-0.03em;line-height:1.15;
+  }
+  .breathe .soft{display:block;color:var(--muted)}
+
+  /* Seções de texto: altura mínima de 512px no desktop,
+     escalando na mesma proporção da largura da tela (512 / 1280 = 40vw) */
+  .text{
+    min-height:min(512px, 40vw);
+    padding-block:calc(var(--u)*5);     /* respiro mínimo quando o texto passa da altura (mobile) */
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .breathe.text{margin-top:0;margin-bottom:0}
+
+  /* ---------- Scroll suave (Lenis, como na referência) ---------- */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+  
+  .lenis [data-lenis-prevent],
+  .lenis [data-lenis-prevent-wheel],
+  .lenis [data-lenis-prevent-touch],
+  .lenis [data-lenis-prevent-vertical],
+  .lenis [data-lenis-prevent-horizontal] {
+    overscroll-behavior: contain;
+  }
+  
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+  
+  .lenis.lenis-autoToggle {
+    transition-property: overflow;
+    transition-duration: 1ms;
+    transition-behavior: allow-discrete;
+  }
+
+  /* ---------- Rodapé ---------- */
+  footer{
+    margin-top:calc(var(--u)*24);padding:calc(var(--u)*3) 0 calc(var(--u)*4);
+    border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;gap:calc(var(--u)*2);
+    font-size:var(--t-small);
+  }
+  footer small{color:var(--muted);font-size:inherit}
+
+  /* ---------- Entrada suave ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none;will-change:auto}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+  }
+
+  /* ---------- Degraus da capa do case ---------- */
+  @media (max-width:1023px){ .case-intro{font-size:16px} }
+  @media (max-width:759px){ .case-intro{font-size:14px} }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width:760px){
+    .media.three,.media.two{grid-template-columns:1fr}
+    :root{--indent:0%}
+    .top{flex-direction:column;gap:4px}
+    .top .name{width:auto}
+    .case-intro{grid-template-columns:1fr;grid-template-rows:auto auto 1fr auto auto;gap:calc(var(--u)*3)}
+    .ci-company,.ci-position,.ci-details,.ci-period{grid-column:1}
+    .ci-position{grid-row:2}.ci-details{grid-row:4}.ci-period{grid-row:5}
+    .media.two,.media.four{grid-template-columns:1fr}
+    footer{flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <header class="top">
+    <span class="name">Artur Ciaramello</span>
+    <span class="place">Brazilian, based in São Pedro, SP</span>
+  </header>
+
+  <h1 class="reveal">Hi. I'm Artur.<br>Product Designer specialized in Design Systems, currently working on <em>Santander</em></h1>
+
+  <ul class="links">
+    <li><a href="https://www.linkedin.com/in/arturciaramello/" target="_blank" rel="noopener">Linkedin</a></li>
+    <li><a href="https://dribbble.com/artmellow" target="_blank" rel="noopener">Dribbble</a></li>
+    <li><a href="mailto:arturciaramello@gmail.com">E-mail</a></li>
+  </ul>
+</section>
+
+<div class="wrap">
+
+  <!-- =====================================================
+       CASE — Esfera / RewarDS
+       Para um novo case, duplique o <article> inteiro e troque --case-color
+       ===================================================== -->
+  <article class="case">
+    <header class="case-intro">
+      <div class="ci-company"><span class="label">Company</span><span class="value">Esfera (Santander)</span></div>
+      <div class="ci-position"><span class="label">Position</span><span class="value">Design Specialist</span></div>
+      <div class="ci-details">
+        <div><span class="label">The challenge</span>
+          <p>As Esfera scaled, design decisions became increasingly local.<br>Different approaches to colors, typography, spacing, and components created rework, inconsistency, and a growing gap between design and implementation.</p></div>
+        <div><span class="label">The solution</span>
+          <p>Build a Design System designed for consistency over flexibility, and completeness over composability.<br>Through semantic foundations, opinionated components, and centralized governance, Rewards, Esfera's Design System created a shared language across design and engineering.</p></div>
+        <div><span class="label">My role</span>
+          <p>Led Design System strategy, foundations architecture, semantic token definition, component craft and governance, and cross-functional adoption.</p></div>
+      </div>
+      <div class="ci-period"><span class="label">Period</span><span class="value">2024 — 2026</span></div>
+    </header>
+
+    <section class="chapter reveal">
+      <div class="text"><h2 class="statement">Rewards Design System: <span class="soft">Built to reduce decisions. Not to offer more options.</span></h2></div>
+      <div class="media bleed" data-snap>
+        <div class="player">
+          <video src="assets/rewards.mp4" poster="assets/rewards-poster.jpg"
+                 width="1920" height="1080" autoplay muted loop playsinline preload="metadata"
+                 aria-label="Rewards Design System overview"></video>
+          <button class="sound" type="button" aria-pressed="false">Sound on</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter reveal">
+      <div class="text"><h2 class="statement">The problem was too many <span class="soft">local decisions.</span></h2></div>
+      <div class="media">
+        <!-- Vídeo em loop (sem som, como um GIF); o container usa o mesmo cinza do fundo do vídeo -->
+        <div class="vbox vbox-gray">
+          <video src="assets/rewards-problem.mp4" poster="assets/rewards-problem-poster.jpg"
+                 width="1920" height="1080" autoplay muted loop playsinline preload="metadata"
+                 aria-label="Esfera checkout screen surrounded by conflicting local feedback: can we make it smaller, I prefer square corners, feels like a wireframe, which component, I prefer tighter spacing"></video>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter reveal">
+      <div class="text"><h2 class="statement">Governance was a product decision. <span class="soft">We centralized it on purpose.</span></h2></div>
+      <p class="para">Rewards is not a kit designers assemble on their own. It makes UI decisions on their behalf: which heading a page uses, how spacing adapts at each breakpoint, which button size belongs to which context. Product teams cannot create local components. That moved the responsibility for every interface decision to the system team, and we accepted everything that comes with it.</p>
+      <!-- Trade-offs da governança centralizada: o que assumimos × o que isso comprou -->
+      <ol class="tradeoffs" aria-label="Trade-offs of centralized governance">
+        <li class="to-head" aria-hidden="true"><span></span><span class="label">We took on</span><span class="label">In return</span></li>
+        <li class="to-row">
+          <span class="to-n">01</span>
+          <div class="to-took"><h3>Every UI decision is ours.</h3><p>If a decision is wrong, it is wrong everywhere.</p></div>
+          <div class="to-ret"><span class="label to-lbl">In return</span><p>When we fix it once, it is fixed everywhere.</p></div>
+        </li>
+        <li class="to-row">
+          <span class="to-n">02</span>
+          <div class="to-took"><h3>We build every component.</h3><p>Teams cannot create local components, so nothing ships without the system.</p></div>
+          <div class="to-ret"><span class="label to-lbl">In return</span><p>One source of truth. No forks, no lookalikes drifting apart.</p></div>
+        </li>
+        <li class="to-row">
+          <span class="to-n">03</span>
+          <div class="to-took"><h3>Coverage came before adoption.</h3><p>The library had to be complete before the first squad could rely on it.</p></div>
+          <div class="to-ret"><span class="label to-lbl">In return</span><p>No team ever had to improvise while waiting for the system.</p></div>
+        </li>
+        <li class="to-row">
+          <span class="to-n">04</span>
+          <div class="to-took"><h3>We documented intent, not just specs.</h3><p>Every foundation and every component states its purpose: when to use it, and when not to.</p></div>
+          <div class="to-ret"><span class="label to-lbl">In return</span><p>No guesswork downstream. Designers choose by context, not by taste.</p></div>
+        </li>
+        <li class="to-row">
+          <span class="to-n">05</span>
+          <div class="to-took"><h3>Less room for expression.</h3><p>Teams cannot invent a new hierarchy screen by screen.</p></div>
+          <div class="to-ret"><span class="label to-lbl">In return</span><p>Expression moved to where it matters: flows, content and problem solving.</p></div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="chapter reveal">
+      <div class="text"><h2 class="statement">We chose consistency over flexibility, <span class="soft">and completeness over composability.</span></h2></div>
+      <div class="media">
+        <div class="rw-box rw-box--static">
+          <figure class="rw rw--static" role="img" aria-label="RewarDS components in use: product card with points pricing, points and payment fields, redeem button, filters, toggles, callout, tags, icon shapes and a redemption confirmation">
+            <img class="L" style="--x:47;--y:128;--w:280;--h:465" src="assets/collage/product.png" alt="">
+            <div class="L field" style="--x:383;--y:138;--w:330;--h:85"><b>Pontos</b><span>12.500</span></div>
+            <div class="L field" style="--x:383;--y:247;--w:330;--h:85"><b>Forma de pagamento</b><span>Pontos + dinheiro<svg viewBox="0 0 24 24" fill="none"><path d="M5.5 9l6.5 6.5L18.5 9" stroke="rgba(41,41,41,.72)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+            <div class="L btn" style="--x:383;--y:356;--w:330;--h:64"><span class="lbl">Resgatar</span><span class="spin"></span></div>
+            <div class="L ctl" style="--x:383;--y:449;--w:20;--h:20"><span class="cb"><svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8.3l3 3 6-6.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+            <div class="L ctl" style="--x:435;--y:449;--w:20;--h:20"><span class="rb"></span></div>
+            <div class="L ctl" style="--x:487;--y:448;--w:40;--h:24"><span class="sw"><i></i></span></div>
+            <div class="L ctl" style="--x:559;--y:444;--w:32;--h:32"><span class="sv"><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.1A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z" stroke-width="1.5" stroke-linejoin="round"/></svg></span></div>
+            <div class="L ctl" style="--x:623;--y:450;--w:20;--h:20"><span class="sp"></span></div>
+            <img class="L" style="--x:769;--y:128;--w:160;--h:85" src="assets/collage/steps.png" alt="">
+            <div class="L pill p1" style="--x:769;--y:241;--w:95;--h:48">Todos</div>
+            <div class="L pill p2" style="--x:872;--y:241;--w:108;--h:48">Viagens</div>
+            <div class="L pill p3" style="--x:988;--y:241;--w:119;--h:48">Produtos</div>
+            <img class="L" style="--x:769;--y:317;--w:327;--h:105" src="assets/collage/callout.png" alt="">
+            <img class="L" style="--x:769;--y:450;--w:236;--h:24" src="assets/collage/tags.png" alt="">
+            <img class="L" style="--x:1194;--y:139;--w:48;--h:48" src="assets/collage/shape-default.png" alt="">
+            <img class="L" style="--x:1254;--y:139;--w:48;--h:48" src="assets/collage/shape-info.png" alt="">
+            <img class="L" style="--x:1314;--y:139;--w:48;--h:48" src="assets/collage/shape-success.png" alt="">
+            <img class="L" style="--x:1194;--y:211;--w:48;--h:48" src="assets/collage/shape-warning.png" alt="">
+            <img class="L" style="--x:1254;--y:211;--w:48;--h:48" src="assets/collage/shape-danger.png" alt="">
+            <img class="L" style="--x:1314;--y:211;--w:48;--h:48" src="assets/collage/shape-discovery.png" alt="">
+            <div class="L tip" style="--x:1235;--y:283;--w:86;--h:35">Favoritar</div>
+            <img class="L" style="--x:1182;--y:342;--w:56;--h:56" src="assets/collage/iconbtn-primary.png" alt="">
+            <img class="L" style="--x:1250;--y:342;--w:56;--h:56" src="assets/collage/iconbtn-secondary.png" alt="">
+            <img class="L" style="--x:1318;--y:342;--w:56;--h:56" src="assets/collage/iconbtn-tertiary.png" alt="">
+            <img class="L" style="--x:1163;--y:422;--w:80;--h:80" src="assets/collage/avatar.png" alt="">
+            <img class="L" style="--x:1259;--y:438;--w:134;--h:48" src="assets/collage/qty.png" alt="">
+            <div class="L bar" style="--x:1189;--y:526;--w:178;--h:8"><i></i></div>
+            <img class="L toast" style="--x:347;--y:512;--w:664;--h:185" src="assets/collage/alert.png" alt="">
+          </figure>
+        </div>
+      </div>
+      <div class="media three">
+        <div class="ibox">
+          <img src="assets/rewards-foundations-typography-960.png"
+               srcset="assets/rewards-foundations-typography-640.png 640w,
+                         assets/rewards-foundations-typography-960.png 960w,
+                         assets/rewards-foundations-typography-1174.png 1174w"
+               sizes="(max-width: 759px) calc(100vw - 40px), min(calc((100vw - 2 * clamp(20px, 4vw, 48px) - 32px) / 3), 614px)"
+               width="1174" height="1440" loading="lazy" decoding="async" style="--ar:0.8153"
+               alt="Esfera DS typography foundations: heading page, section and subsection styles for desktop and mobile, each mapped to font tokens">
+        </div>
+        <div class="ibox">
+          <img src="assets/rewards-foundations-spacing-960.png"
+               srcset="assets/rewards-foundations-spacing-640.png 640w,
+                         assets/rewards-foundations-spacing-960.png 960w,
+                         assets/rewards-foundations-spacing-1174.png 1174w"
+               sizes="(max-width: 759px) calc(100vw - 40px), min(calc((100vw - 2 * clamp(20px, 4vw, 48px) - 32px) / 3), 614px)"
+               width="1174" height="1440" loading="lazy" decoding="async" style="--ar:0.8153"
+               alt="Esfera DS spacing foundations: semantic spacing tokens such as spacing-horizontal-between-cards, linked to global tokens, for desktop and mobile">
+        </div>
+        <div class="ibox">
+          <img src="assets/rewards-foundations-motion-960.png"
+               srcset="assets/rewards-foundations-motion-640.png 640w,
+                         assets/rewards-foundations-motion-960.png 960w,
+                         assets/rewards-foundations-motion-1174.png 1174w"
+               sizes="(max-width: 759px) calc(100vw - 40px), min(calc((100vw - 2 * clamp(20px, 4vw, 48px) - 32px) / 3), 614px)"
+               width="1174" height="1440" loading="lazy" decoding="async" style="--ar:0.8153"
+               alt="Esfera DS motion tokens: productive and expressive easing curves, each combining a vibe and a duration token">
+        </div>
+      </div>
+      <!-- Foundations: cards em HTML/CSS (posição temporária) -->
+      <div class="media two">
+        <figure class="esfera e-colors" aria-label="Esfera brand colors: red, dark and light">
+          <span class="tag l">Colors</span>
+          <div class="sw red"></div>
+          <div class="sw dark"></div>
+          <div class="sw light"></div>
+        </figure>
+        <figure class="esfera e-type" aria-label="Esfera typography: Poppins as Font Family Highlight and Open Sans as Font Family Base">
+          <div class="face hl">
+            <span class="tag l">Font Family Highlight</span>
+            <span class="tag r">Poppins</span>
+            <span class="aa" aria-hidden="true">Aa</span>
+          </div>
+          <div class="face base">
+            <span class="tag l">Font Family Base</span>
+            <span class="tag r">Open Sans</span>
+            <span class="aa" aria-hidden="true">Aa</span>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="chapter reveal">
+      <div class="text"><h2 class="statement">Tokens became decisions. <span class="soft">Designers applied intent, not numbers.</span></h2></div>
+      <div class="media">
+        <!-- Loop: tokens semânticos de espaçamento anotados sobre o bloco Label + Heading -->
+        <div class="vbox vbox-gray">
+          <video src="assets/rewards-spacing-tokens.mp4" poster="assets/rewards-spacing-tokens-poster.jpg"
+                 width="1920" height="1080" autoplay muted loop playsinline preload="metadata"
+                 aria-label="Semantic spacing tokens annotated on a page header: Spacing Horizontal Screen, Spacing Vertical Section and Spacing Vertical Default"></video>
+        </div>
+      </div>
+      <div class="media media-follow tok-row">
+        <!-- Loop: Callout alternando Discovery → Informative → Warning, com os tokens trocando junto -->
+        <div class="vbox vbox-fill">
+          <video src="assets/rewards-callout-types.mp4" poster="assets/rewards-callout-types-poster.jpg"
+                 width="1800" height="1050" autoplay muted loop playsinline preload="metadata"
+                 aria-label="Callout component switching between its Discovery, Informative and Warning types; the Layout and Content color tokens change with each type while Content Primary and Content Secondary stay the same"></video>
+        </div>
+      </div>
+      <div class="media two media-follow tok-row">
+        <figure class="esfera e-tok" aria-label="Text Field in its default state with its color tokens: Content Primary for the label, Interactive Secondary for the outline, Content Placeholder for the placeholder and Content Secondary for the supporting text">
+          <svg viewBox="-49.6 -51.1 992.2 1022.2" role="img" aria-label="Text Field in its default state with its color tokens: Content Primary for the label, Interactive Secondary for the outline, Content Placeholder for the placeholder and Content Secondary for the supporting text" xmlns="http://www.w3.org/2000/svg">
+<g opacity="1.000">
+<text x="199.0" y="396.9" font-family="Open Sans" font-weight="600" font-size="24.0" fill="#141414">Label</text>
+<rect x="199.75" y="416.25" width="493.5" height="82.5" rx="11.25" fill="none" stroke="#292929" stroke-opacity="0.160" stroke-width="1.5"/>
+<g transform="translate(226.0,442.5) scale(1.5)"><path d="M10.5 0.5C10.5 0.224 10.276 0 10 0C9.724 0 9.5 0.224 9.5 0.5C9.5 5.462 5.463 9.5 0.5 9.5C0.224 9.5 0 9.724 0 10C0 10.276 0.224 10.5 0.5 10.5C5.463 10.5 9.5 14.538 9.5 19.5C9.5 19.776 9.724 20 10 20C10.276 20 10.5 19.776 10.5 19.5C10.5 14.538 14.537 10.5 19.5 10.5C19.776 10.5 20 10.276 20 10C20 9.724 19.776 9.5 19.5 9.5C14.537 9.5 10.5 5.462 10.5 0.5ZM3.605 10C6.624 9.011 9.011 6.624 10 3.606C10.989 6.624 13.376 9.011 16.395 10C13.376 10.989 10.989 13.376 10 16.394C9.011 13.376 6.624 10.989 3.605 10Z" fill="#292929" fill-opacity=".72"/></g>
+<text x="271.0" y="466.8" font-family="Open Sans" font-size="24.0" fill="#292929" fill-opacity="0.640">Placeholder</text>
+<text x="199.0" y="534.0" font-family="Open Sans" font-size="21.0" fill="#292929" fill-opacity="0.720">Supporting Text</text>
+</g>
+<rect x="141.9" y="209.0" width="217.2" height="42" rx="21.0" fill="#fff"/>
+<circle cx="163.9" cy="230.0" r="12.0" fill="#fff"/>
+<circle cx="163.9" cy="230.0" r="12.0" fill="#141414" fill-opacity="1.0" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="185.9" y="236.7" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Content / </tspan><tspan fill="#141414" font-weight="500">Primary</tspan></text>
+<circle cx="230.5" cy="251.0" r="4.5" fill="#141414"/>
+<polyline points="230.5,251.0 230.5,368.0" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/>
+<polyline points="223.5,361.0 230.5,368.0 237.5,361.0" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="470.0" y="209.0" width="265.8" height="42" rx="21.0" fill="#fff"/>
+<circle cx="492.0" cy="230.0" r="12.0" fill="#fff"/>
+<circle cx="492.0" cy="230.0" r="12.0" fill="#292929" fill-opacity="0.16" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="514.0" y="236.7" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Interactive / </tspan><tspan fill="#141414" font-weight="500">Secondary</tspan></text>
+<circle cx="470" cy="230" r="4.5" fill="#141414"/>
+<polyline points="470,230 440,230" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/>
+<polyline points="440,230 440,411.5" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/>
+<polyline points="433,404.5 440,411.5 447,404.5" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="512.6" y="679.0" width="254.7" height="42" rx="21.0" fill="#fff"/>
+<circle cx="534.6" cy="700.0" r="12.0" fill="#fff"/>
+<circle cx="534.6" cy="700.0" r="12.0" fill="#292929" fill-opacity="0.64" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="556.6" y="706.6" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Content / </tspan><tspan fill="#141414" font-weight="500">Placeholder</tspan></text>
+<circle cx="640" cy="679.0" r="4.5" fill="#141414"/>
+<polyline points="640,679.0 640,622 394.0,622 394.0,475.0" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/>
+<polyline points="387.0,482.0 394.0,475.0 401.0,482.0" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="138.2" y="679.0" width="243.6" height="42" rx="21.0" fill="#fff"/>
+<circle cx="160.2" cy="700.0" r="12.0" fill="#fff"/>
+<circle cx="160.2" cy="700.0" r="12.0" fill="#292929" fill-opacity="0.72" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="182.2" y="706.6" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Content / </tspan><tspan fill="#141414" font-weight="500">Secondary</tspan></text>
+<circle cx="220.0" cy="679.0" r="4.5" fill="#141414"/>
+<polyline points="220.0,679.0 220.0,544.0" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/>
+<polyline points="213.0,551.0 220.0,544.0 227.0,551.0" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </figure>
+        <figure class="esfera e-tok" aria-label="Button Primary in six states with the color token each one uses; disabled and loading also apply the Behavior Disabled opacity token">
+          <svg viewBox="-49.6 -23.1 992.2 1022.2" role="img" aria-label="Button Primary in six states with the color token each one uses; disabled and loading also apply the Behavior Disabled opacity token" xmlns="http://www.w3.org/2000/svg">
+<text x="96" y="193.1" font-family="Geist" font-size="19" fill="#8a8a8a" letter-spacing="-0.2">Default</text>
+<g opacity="1.000">
+<rect x="232" y="150" width="189.8" height="72.8" rx="10.4" fill="#CC0100" fill-opacity="1.000"/>
+<g transform="translate(265.37,175.57) scale(1.3)"><path d="M8.75 0.416667C8.75 0.186667 8.56333 0 8.33333 0C8.10333 0 7.91667 0.186667 7.91667 0.416667C7.91667 4.55167 4.5525 7.91667 0.416667 7.91667C0.186667 7.91667 0 8.10333 0 8.33333C0 8.56333 0.186667 8.75 0.416667 8.75C4.5525 8.75 7.91667 12.115 7.91667 16.25C7.91667 16.48 8.10333 16.6667 8.33333 16.6667C8.56333 16.6667 8.75 16.48 8.75 16.25C8.75 12.115 12.1142 8.75 16.25 8.75C16.48 8.75 16.6667 8.56333 16.6667 8.33333C16.6667 8.10333 16.48 7.91667 16.25 7.91667C12.1142 7.91667 8.75 4.55167 8.75 0.416667ZM3.00417 8.33333C5.52 7.50917 7.50917 5.52 8.33333 3.005C9.1575 5.52 11.1467 7.50917 13.6625 8.33333C11.1467 9.1575 9.1575 11.1467 8.33333 13.6617C7.50917 11.1467 5.52 9.1575 3.00417 8.33333Z" fill="#FFFFFF"/></g>
+<g transform="translate(366.77,175.57) scale(1.3)"><path d="M8.75 0.416667C8.75 0.186667 8.56333 0 8.33333 0C8.10333 0 7.91667 0.186667 7.91667 0.416667C7.91667 4.55167 4.5525 7.91667 0.416667 7.91667C0.186667 7.91667 0 8.10333 0 8.33333C0 8.56333 0.186667 8.75 0.416667 8.75C4.5525 8.75 7.91667 12.115 7.91667 16.25C7.91667 16.48 8.10333 16.6667 8.33333 16.6667C8.56333 16.6667 8.75 16.48 8.75 16.25C8.75 12.115 12.1142 8.75 16.25 8.75C16.48 8.75 16.6667 8.56333 16.6667 8.33333C16.6667 8.10333 16.48 7.91667 16.25 7.91667C12.1142 7.91667 8.75 4.55167 8.75 0.416667ZM3.00417 8.33333C5.52 7.50917 7.50917 5.52 8.33333 3.005C9.1575 5.52 11.1467 7.50917 13.6625 8.33333C11.1467 9.1575 9.1575 11.1467 8.33333 13.6617C7.50917 11.1467 5.52 9.1575 3.00417 8.33333Z" fill="#FFFFFF"/></g>
+<text x="299.59999999999997" y="197.1" font-family="Open Sans" font-weight="600" font-size="20.8" fill="#FFFFFF">Label</text>
+</g>
+<g opacity="1.000"><rect x="520.0" y="165.4" width="239.4" height="42" rx="21.0" fill="#fff"/>
+<circle cx="542.0" cy="186.4" r="12.0" fill="#fff"/>
+<circle cx="542.0" cy="186.4" r="12.0" fill="#CC0100" fill-opacity="1" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="564.0" y="193.1" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Interactive / </tspan><tspan fill="#141414" font-weight="500">Primary</tspan></text></g>
+<g opacity="1.000"><polyline points="520,186.4 427.8,186.4" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/><circle cx="520" cy="186.4" r="4.5" fill="#141414"/><polyline points="434.8,179.4 427.8,186.4 434.8,193.4" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="96" y="305.8" font-family="Geist" font-size="19" fill="#8a8a8a" letter-spacing="-0.2">Hover</text>
+<g opacity="1.000">
+<rect x="232" y="262.8" width="189.8" height="72.8" rx="10.4" fill="#AF010F" fill-opacity="1.000"/>
+<g transform="translate(265.37,288.37) scale(1.3)"><path d="M8.75 0.416667C8.75 0.186667 8.56333 0 8.33333 0C8.10333 0 7.91667 0.186667 7.91667 0.416667C7.91667 4.55167 4.5525 7.91667 0.416667 7.91667C0.186667 7.91667 0 8.10333 0 8.33333C0 8.56333 0.186667 8.75 0.416667 8.75C4.5525 8.75 7.91667 12.115 7.91667 16.25C7.91667 16.48 8.10333 16.6667 8.33333 16.6667C8.56333 16.6667 8.75 16.48 8.75 16.25C8.75 12.115 12.1142 8.75 16.25 8.75C16.48 8.75 16.6667 8.56333 16.6667 8.33333C16.6667 8.10333 16.48 7.91667 16.25 7.91667C12.1142 7.91667 8.75 4.55167 8.75 0.416667ZM3.00417 8.33333C5.52 7.50917 7.50917 5.52 8.33333 3.005C9.1575 5.52 11.1467 7.50917 13.6625 8.33333C11.1467 9.1575 9.1575 11.1467 8.33333 13.6617C7.50917 11.1467 5.52 9.1575 3.00417 8.33333Z" fill="#FFFFFF"/></g>
+<g transform="translate(366.77,288.37) scale(1.3)"><path d="M8.75 0.416667C8.75 0.186667 8.56333 0 8.33333 0C8.10333 0 7.91667 0.186667 7.91667 0.416667C7.91667 4.55167 4.5525 7.91667 0.416667 7.91667C0.186667 7.91667 0 8.10333 0 8.33333C0 8.56333 0.186667 8.75 0.416667 8.75C4.5525 8.75 7.91667 12.115 7.91667 16.25C7.91667 16.48 8.10333 16.6667 8.33333 16.6667C8.56333 16.6667 8.75 16.48 8.75 16.25C8.75 12.115 12.1142 8.75 16.25 8.75C16.48 8.75 16.6667 8.56333 16.6667 8.33333C16.6667 8.10333 16.48 7.91667 16.25 7.91667C12.1142 7.91667 8.75 4.55167 8.75 0.416667ZM3.00417 8.33333C5.52 7.50917 7.50917 5.52 8.33333 3.005C9.1575 5.52 11.1467 7.50917 13.6625 8.33333C11.1467 9.1575 9.1575 11.1467 8.33333 13.6617C7.50917 11.1467 5.52 9.1575 3.00417 8.33333Z" fill="#FFFFFF"/></g>
+<text x="299.59999999999997" y="309.9" font-family="Open Sans" font-weight="600" font-size="20.8" fill="#FFFFFF">Label</text>
+</g>
+<g opacity="1.000"><rect x="520.0" y="278.2" width="296.4" height="42" rx="21.0" fill="#fff"/>
+<circle cx="542.0" cy="299.2" r="12.0" fill="#fff"/>
+<circle cx="542.0" cy="299.2" r="12.0" fill="#AF010F" fill-opacity="1" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="564.0" y="305.8" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Interactive / </tspan><tspan fill="#141414" font-weight="500">Primary Hover</tspan></text></g>
+<g opacity="1.000"><polyline points="520,299.2 427.8,299.2" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/><circle cx="520" cy="299.2" r="4.5" fill="#141414"/><polyline points="434.8,292.2 427.8,299.2 434.8,306.2" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="96" y="418.6" font-family="Geist" font-size="19" fill="#8a8a8a" letter-spacing="-0.2">Pressed</text>
+<g opacity="1.000">
+<rect x="232" y="375.6" width="189.8" height="72.8" rx="10.4" fill="#910119" fill-opacity="1.000"/>
+<g transform="translate(265.37,401.17) scale(1.3)"><path d="M8.75 0.416667C8.75 0.186667 8.56333 0 8.33333 0C8.10333 0 7.91667 0.186667 7.91667 0.416667C7.91667 4.55167 4.5525 7.91667 0.416667 7.91667C0.186667 7.91667 0 8.10333 0 8.33333C0 8.56333 0.186667 8.75 0.416667 8.75C4.5525 8.75 7.91667 12.115 7.91667 16.25C7.91667 16.48 8.10333 16.6667 8.33333 16.6667C8.56333 16.6667 8.75 16.48 8.75 16.25C8.75 12.115 12.1142 8.75 16.25 8.75C16.48 8.75 16.6667 8.56333 16.6667 8.33333C16.6667 8.10333 16.48 7.91667 16.25 7.91667C12.1142 7.91667 8.75 4.55167 8.75 0.416667ZM3.00417 8.33333C5.52 7.50917 7.50917 5.52 8.33333 3.005C9.1575 5.52 11.1467 7.50917 13.6625 8.33333C11.1467 9.1575 9.1575 11.1467 8.33333 13.6617C7.50917 11.1467 5.52 9.1575 3.00417 8.33333Z" fill="#FFFFFF"/></g>
+<g transform="translate(366.77,401.17) scale(1.3)"><path d="M8.75 0.416667C8.75 0.186667 8.56333 0 8.33333 0C8.10333 0 7.91667 0.186667 7.91667 0.416667C7.91667 4.55167 4.5525 7.91667 0.416667 7.91667C0.186667 7.91667 0 8.10333 0 8.33333C0 8.56333 0.186667 8.75 0.416667 8.75C4.5525 8.75 7.91667 12.115 7.91667 16.25C7.91667 16.48 8.10333 16.6667 8.33333 16.6667C8.56333 16.6667 8.75 16.48 8.75 16.25C8.75 12.115 12.1142 8.75 16.25 8.75C16.48 8.75 16.6667 8.56333 16.6667 8.33333C16.6667 8.10333 16.48 7.91667 16.25 7.91667C12.1142 7.91667 8.75 4.55167 8.75 0.416667ZM3.00417 8.33333C5.52 7.50917 7.50917 5.52 8.33333 3.005C9.1575 5.52 11.1467 7.50917 13.6625 8.33333C11.1467 9.1575 9.1575 11.1467 8.33333 13.6617C7.50917 11.1467 5.52 9.1575 3.00417 8.33333Z" fill="#FFFFFF"/></g>
+<text x="299.59999999999997" y="422.7" font-family="Open Sans" font-weight="600" font-size="20.8" fill="#FFFFFF">Label</text>
+</g>
+<g opacity="1.000"><rect x="520.0" y="391.0" width="316.1" height="42" rx="21.0" fill="#fff"/>
+<circle cx="542.0" cy="412.0" r="12.0" fill="#fff"/>
+<circle cx="542.0" cy="412.0" r="12.0" fill="#910119" fill-opacity="1" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="564.0" y="418.6" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Interactive / </tspan><tspan fill="#141414" font-weight="500">Primary Pressed</tspan></text></g>
+<g opacity="1.000"><polyline points="520,412.0 427.8,412.0" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/><circle cx="520" cy="412.0" r="4.5" fill="#141414"/><polyline points="434.8,405.0 427.8,412.0 434.8,419.0" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="96" y="531.5" font-family="Geist" font-size="19" fill="#8a8a8a" letter-spacing="-0.2">Focus</text>
+<g opacity="1.000">
+<rect x="232" y="488.40000000000003" width="189.8" height="72.8" rx="10.4" fill="#AF010F" fill-opacity="1.000"/>
+<rect x="232.65" y="489.05" width="188.5" height="71.5" rx="9.75" fill="none" stroke="#CC0100" stroke-opacity="1.000" stroke-width="1.3"/>
+<g transform="translate(265.37,513.97) scale(1.3)"><path d="M8.75 0.416667C8.75 0.186667 8.56333 0 8.33333 0C8.10333 0 7.91667 0.186667 7.91667 0.416667C7.91667 4.55167 4.5525 7.91667 0.416667 7.91667C0.186667 7.91667 0 8.10333 0 8.33333C0 8.56333 0.186667 8.75 0.416667 8.75C4.5525 8.75 7.91667 12.115 7.91667 16.25C7.91667 16.48 8.10333 16.6667 8.33333 16.6667C8.56333 16.6667 8.75 16.48 8.75 16.25C8.75 12.115 12.1142 8.75 16.25 8.75C16.48 8.75 16.6667 8.56333 16.6667 8.33333C16.6667 8.10333 16.48 7.91667 16.25 7.91667C12.1142 7.91667 8.75 4.55167 8.75 0.416667ZM3.00417 8.33333C5.52 7.50917 7.50917 5.52 8.33333 3.005C9.1575 5.52 11.1467 7.50917 13.6625 8.33333C11.1467 9.1575 9.1575 11.1467 8.33333 13.6617C7.50917 11.1467 5.52 9.1575 3.00417 8.33333Z" fill="#FFFFFF"/></g>
+<g transform="translate(366.77,513.97) scale(1.3)"><path d="M8.75 0.416667C8.75 0.186667 8.56333 0 8.33333 0C8.10333 0 7.91667 0.186667 7.91667 0.416667C7.91667 4.55167 4.5525 7.91667 0.416667 7.91667C0.186667 7.91667 0 8.10333 0 8.33333C0 8.56333 0.186667 8.75 0.416667 8.75C4.5525 8.75 7.91667 12.115 7.91667 16.25C7.91667 16.48 8.10333 16.6667 8.33333 16.6667C8.56333 16.6667 8.75 16.48 8.75 16.25C8.75 12.115 12.1142 8.75 16.25 8.75C16.48 8.75 16.6667 8.56333 16.6667 8.33333C16.6667 8.10333 16.48 7.91667 16.25 7.91667C12.1142 7.91667 8.75 4.55167 8.75 0.416667ZM3.00417 8.33333C5.52 7.50917 7.50917 5.52 8.33333 3.005C9.1575 5.52 11.1467 7.50917 13.6625 8.33333C11.1467 9.1575 9.1575 11.1467 8.33333 13.6617C7.50917 11.1467 5.52 9.1575 3.00417 8.33333Z" fill="#FFFFFF"/></g>
+<text x="299.59999999999997" y="535.5" font-family="Open Sans" font-weight="600" font-size="20.8" fill="#FFFFFF">Label</text>
+</g>
+<g opacity="1.000"><rect x="520.0" y="479.8" width="296.4" height="42" rx="21.0" fill="#fff"/>
+<circle cx="542.0" cy="500.8" r="12.0" fill="#fff"/>
+<circle cx="542.0" cy="500.8" r="12.0" fill="#AF010F" fill-opacity="1" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="564.0" y="507.5" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Interactive / </tspan><tspan fill="#141414" font-weight="500">Primary Hover</tspan></text></g>
+<g opacity="1.000"><circle cx="520" cy="500.80000000000007" r="4.5" fill="#141414"/><polyline points="520,500.80000000000007 490,500.80000000000007 490,524.8000000000001 427.8,524.8000000000001" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/><polyline points="434.8,517.8000000000001 427.8,524.8000000000001 434.8,531.8000000000001" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g opacity="1.000"><rect x="520.0" y="527.8" width="209.5" height="42" rx="21.0" fill="#fff"/>
+<circle cx="542.0" cy="548.8" r="12.0" fill="#fff"/>
+<circle cx="542.0" cy="548.8" r="12.0" fill="#CC0100" fill-opacity="1" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="564.0" y="555.5" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Highlight / </tspan><tspan fill="#141414" font-weight="500">Focus</tspan></text></g>
+<g opacity="1.000"><circle cx="520" cy="548.8000000000001" r="4.5" fill="#141414"/><polyline points="520,548.8000000000001 490,548.8000000000001 490,524.8000000000001" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/></g>
+<text x="96" y="644.2" font-family="Geist" font-size="19" fill="#8a8a8a" letter-spacing="-0.2">Disabled</text>
+<g opacity="0.320">
+<rect x="232" y="601.2" width="189.8" height="72.8" rx="10.4" fill="#CC0100" fill-opacity="1.000"/>
+<g transform="translate(265.37,626.77) scale(1.3)"><path d="M8.75 0.416667C8.75 0.186667 8.56333 0 8.33333 0C8.10333 0 7.91667 0.186667 7.91667 0.416667C7.91667 4.55167 4.5525 7.91667 0.416667 7.91667C0.186667 7.91667 0 8.10333 0 8.33333C0 8.56333 0.186667 8.75 0.416667 8.75C4.5525 8.75 7.91667 12.115 7.91667 16.25C7.91667 16.48 8.10333 16.6667 8.33333 16.6667C8.56333 16.6667 8.75 16.48 8.75 16.25C8.75 12.115 12.1142 8.75 16.25 8.75C16.48 8.75 16.6667 8.56333 16.6667 8.33333C16.6667 8.10333 16.48 7.91667 16.25 7.91667C12.1142 7.91667 8.75 4.55167 8.75 0.416667ZM3.00417 8.33333C5.52 7.50917 7.50917 5.52 8.33333 3.005C9.1575 5.52 11.1467 7.50917 13.6625 8.33333C11.1467 9.1575 9.1575 11.1467 8.33333 13.6617C7.50917 11.1467 5.52 9.1575 3.00417 8.33333Z" fill="#FFFFFF"/></g>
+<g transform="translate(366.77,626.77) scale(1.3)"><path d="M8.75 0.416667C8.75 0.186667 8.56333 0 8.33333 0C8.10333 0 7.91667 0.186667 7.91667 0.416667C7.91667 4.55167 4.5525 7.91667 0.416667 7.91667C0.186667 7.91667 0 8.10333 0 8.33333C0 8.56333 0.186667 8.75 0.416667 8.75C4.5525 8.75 7.91667 12.115 7.91667 16.25C7.91667 16.48 8.10333 16.6667 8.33333 16.6667C8.56333 16.6667 8.75 16.48 8.75 16.25C8.75 12.115 12.1142 8.75 16.25 8.75C16.48 8.75 16.6667 8.56333 16.6667 8.33333C16.6667 8.10333 16.48 7.91667 16.25 7.91667C12.1142 7.91667 8.75 4.55167 8.75 0.416667ZM3.00417 8.33333C5.52 7.50917 7.50917 5.52 8.33333 3.005C9.1575 5.52 11.1467 7.50917 13.6625 8.33333C11.1467 9.1575 9.1575 11.1467 8.33333 13.6617C7.50917 11.1467 5.52 9.1575 3.00417 8.33333Z" fill="#FFFFFF"/></g>
+<text x="299.59999999999997" y="648.3" font-family="Open Sans" font-weight="600" font-size="20.8" fill="#FFFFFF">Label</text>
+</g>
+<g opacity="1.000"><rect x="520.0" y="592.6" width="239.4" height="42" rx="21.0" fill="#fff"/>
+<circle cx="542.0" cy="613.6" r="12.0" fill="#fff"/>
+<circle cx="542.0" cy="613.6" r="12.0" fill="#CC0100" fill-opacity="1" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="564.0" y="620.2" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Interactive / </tspan><tspan fill="#141414" font-weight="500">Primary</tspan></text></g>
+<g opacity="1.000"><circle cx="520" cy="613.6" r="4.5" fill="#141414"/><polyline points="520,613.6 490,613.6 490,637.6 427.8,637.6" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/><polyline points="434.8,630.6 427.8,637.6 434.8,644.6" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g opacity="1.000"><rect x="520.0" y="640.6" width="233.1" height="42" rx="21.0" fill="#fff"/>
+<circle cx="542.0" cy="661.6" r="12.0" fill="#fff"/>
+<circle cx="542.0" cy="661.6" r="12.0" fill="#141414" fill-opacity="0.32" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="564.0" y="668.2" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Behavior / </tspan><tspan fill="#141414" font-weight="500">Disabled</tspan></text></g>
+<g opacity="1.000"><circle cx="520" cy="661.6" r="4.5" fill="#141414"/><polyline points="520,661.6 490,661.6 490,637.6" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/></g>
+<text x="96" y="757.0" font-family="Geist" font-size="19" fill="#8a8a8a" letter-spacing="-0.2">Loading</text>
+<g opacity="0.320">
+<rect x="232" y="714.0" width="153.4" height="72.8" rx="10.4" fill="#CC0100" fill-opacity="1.000"/>
+<circle cx="276.2" cy="750.4" r="11.375" fill="none" stroke="#FFFFFF" stroke-opacity="0.480" stroke-width="3.25"/>
+<path d="M276.2 739.025 A11.375 11.375 0 0 1 287.575 750.4" fill="none" stroke="#FFFFFF" stroke-width="3.25" stroke-linecap="round"/>
+<text x="299.59999999999997" y="761.1" font-family="Open Sans" font-weight="600" font-size="20.8" fill="#FFFFFF">Label</text>
+</g>
+<g opacity="1.000"><rect x="520.0" y="705.4" width="239.4" height="42" rx="21.0" fill="#fff"/>
+<circle cx="542.0" cy="726.4" r="12.0" fill="#fff"/>
+<circle cx="542.0" cy="726.4" r="12.0" fill="#CC0100" fill-opacity="1" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="564.0" y="733.0" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Interactive / </tspan><tspan fill="#141414" font-weight="500">Primary</tspan></text></g>
+<g opacity="1.000"><circle cx="520" cy="726.4" r="4.5" fill="#141414"/><polyline points="520,726.4 490,726.4 490,750.4 391.4,750.4" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/><polyline points="398.4,743.4 391.4,750.4 398.4,757.4" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g opacity="1.000"><rect x="520.0" y="753.4" width="233.1" height="42" rx="21.0" fill="#fff"/>
+<circle cx="542.0" cy="774.4" r="12.0" fill="#fff"/>
+<circle cx="542.0" cy="774.4" r="12.0" fill="#141414" fill-opacity="0.32" stroke="rgba(0,0,0,.08)" stroke-width="1"/>
+<text x="564.0" y="781.0" font-family="Geist" font-size="19" letter-spacing="-0.2"><tspan fill="#8a8a8a">Behavior / </tspan><tspan fill="#141414" font-weight="500">Disabled</tspan></text></g>
+<g opacity="1.000"><circle cx="520" cy="774.4" r="4.5" fill="#141414"/><polyline points="520,774.4 490,774.4 490,750.4" fill="none" stroke="#141414" stroke-width="1.6" stroke-linejoin="round"/></g>
+<g opacity="1.000"></g>
+          </svg>
+        </figure>
+      </div>
+    </section>
+
+    <section class="chapter reveal">
+      <div class="text"><h2 class="statement">The first contact created friction. <span class="soft">The second one created speed.</span></h2></div>
+      <div class="media">
+        <!-- Vídeo em loop (sem som, como um GIF) dentro do container branco -->
+        <div class="vbox vbox-bare">
+          <video src="assets/rewards-darkmode.mp4" poster="assets/rewards-darkmode-poster.jpg"
+                 width="1920" height="1080" autoplay muted loop playsinline preload="metadata"
+                 aria-label="Esfera checkout dragged from light mode to dark mode, adapting instantly with the same components"></video>
+        </div>
+      </div>
+      <div class="media two media-follow">
+        <!-- Protótipos Smart Animate recriados: espaçamento e tipografia trocando de desktop para mobile -->
+        <div class="ibox vloop">
+          <span class="tag">Responsive Spacing</span>
+          <video src="assets/rewards-spacing.mp4" poster="assets/rewards-spacing-poster.jpg"
+                 width="1368" height="1380" autoplay muted loop playsinline preload="metadata"
+                 aria-label="Spacing tokens switching from desktop to mobile: paddings tighten and the plan cards widen"></video>
+        </div>
+        <div class="ibox vloop">
+          <span class="tag">Responsive Typography</span>
+          <video src="assets/rewards-typography.mp4" poster="assets/rewards-typography-poster.jpg"
+                 width="1368" height="1380" autoplay muted loop playsinline preload="metadata"
+                 aria-label="Typography tokens switching from desktop to mobile: the heading scales down and reflows into two lines"></video>
+        </div>
+      </div>
+      <p class="para">No more guessing. Every semantic token for spacing, typography and border radius carries its own responsive behavior: a designer picks one token, and it resolves to the right value at every breakpoint, in Figma and in code. Nobody maps sizes screen by screen, nobody writes breakpoint overrides, and handoff stops being a translation exercise. What is designed for desktop ships correct on mobile by default, and every new screen inherits the same rhythm without a single extra decision.</p>
+    </section>
+
+    <section class="chapter reveal">
+      <div class="text"><h2 class="statement">Less visual debate. Less rework. <span class="soft">More predictable delivery.</span></h2></div>
+      <div class="media two">
+        <figure class="esfera e-stat" style="aspect-ratio:1824/1840" aria-label="92% efficiency">
+          <span class="tag l">Efficiency</span>
+          <span class="stat" aria-hidden="true">92%</span>
+        </figure>
+        <figure class="esfera e-reuse" style="aspect-ratio:1824/1840">
+          <span class="tag r"><span class="num">2,650,357+</span>inserts in Figma in 2025</span>
+          <img src="assets/rewards-reuse-960.png"
+             srcset="assets/rewards-reuse-640.png 640w,
+                     assets/rewards-reuse-960.png 960w,
+                     assets/rewards-reuse-1280.png 1280w,
+                     assets/rewards-reuse-1824.png 1824w"
+             sizes="(max-width: 759px) calc(100vw - 40px), min(calc((100vw - 2 * clamp(20px, 4vw, 48px) - 16px) / 2), 920px)"
+             width="1824" height="1840" loading="lazy" decoding="async" 
+             alt="Figma library analytics, Top teams: Time Esfera, Design Esfera and internal portals, in three snapshots of component inserts, the largest with 497,433 inserts from Time Esfera">
+        </figure>
+      </div>
+      <p class="para">We measured efficiency by comparing the time designers needed to complete equivalent UI tasks before and after adopting the Design System. We evaluated component creation, layout assembly, and reuse of standardized patterns.</p>
+    </section>
+
+    <section class="chapter text reveal">
+      <h2 class="statement">Rewards was designed to make the right decisions easier <span class="soft">— and the wrong ones harder.</span></h2>
+    </section>
+
+    <p class="breathe text reveal">That's it for RewarDS. <span class="soft">New cases are on the way.</span></p>
+  </article>
+
+  <footer>
+    <ul class="links">
+      <li><a href="https://www.linkedin.com/in/arturciaramello/" target="_blank" rel="noopener">Linkedin</a></li>
+      <li><a href="https://dribbble.com/artmellow" target="_blank" rel="noopener">Dribbble</a></li>
+      <li><a href="mailto:arturciaramello@gmail.com">E-mail</a></li>
+    </ul>
+    <small>© <span id="y"></span> Artur Ciaramello</small>
+  </footer>
+
+</div>
+
+<script src="assets/js/lenis.min.js"></script>
+<script src="assets/js/lenis-snap.min.js"></script>
+<script>
+  // Scroll suave com inércia, igual ao "Smooth Scroll" do Framer.
+  // Desligado para quem prefere menos movimento no sistema.
+  if (window.Lenis && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, smoothWheel: true });
+    (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(performance.now());
+
+    // "Trava" no vídeo do Rewards: ao parar a rolagem perto dele, a página
+    // assenta com o vídeo centralizado na tela. Fora da zona de alcance, nada acontece.
+    if (window.Snap) {
+      const snap = new Snap(lenis, {
+        type: 'proximity',
+        distanceThreshold: '30%',   // só "puxa" se o centro do vídeo estiver a até 30% da altura da tela
+        debounce: 180,              // espera a rolagem parar antes de assentar
+        duration: 0.9,
+        easing: t => 1 - Math.pow(1 - t, 3)
+      });
+      document.querySelectorAll('[data-snap]').forEach(el => snap.addElement(el, { align: ['center'] }));
+    }
+  }
+</script>
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  document.querySelectorAll('.player').forEach(p => {
+    const v = p.querySelector('video'), b = p.querySelector('.sound');
+    b.addEventListener('click', () => {
+      const on = v.muted;              // estava mudo → liga o som e volta ao início
+      v.muted = !on;
+      if (on){ v.currentTime = 0; v.loop = false; v.play(); }
+      else { v.loop = true; }
+      b.textContent = on ? 'Sound off' : 'Sound on';
+      b.setAttribute('aria-pressed', on);
+    });
+    v.addEventListener('ended', () => { v.muted = true; v.loop = true; v.play(); b.textContent = 'Sound on'; b.setAttribute('aria-pressed', false); });
+  });
+
+  /* Vídeos em loop no celular: o atributo autoplay sozinho falha em vários casos
+     (modo de economia de bateria, navegadores dentro de apps, muitos vídeos decodificando ao mesmo tempo).
+     Aqui cada vídeo toca só quando está na tela, pausa quando sai, e o primeiro toque destrava os que foram bloqueados. */
+  (() => {
+    const vids = [...document.querySelectorAll('video[autoplay]')];
+    const tryPlay = v => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+    vids.forEach(v => {
+      v.muted = true; v.defaultMuted = true; v.playsInline = true;
+      v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
+      v.removeAttribute('autoplay');               // quem decide quando tocar é o observer abaixo
+    });
+    const visible = new Set();
+    const vio = new IntersectionObserver(es => es.forEach(e => {
+      const v = e.target;
+      if (e.isIntersecting){ visible.add(v); if (v.preload !== 'auto') v.preload = 'auto'; tryPlay(v); }
+      else { visible.delete(v); if (v.muted && !v.paused) v.pause(); }   // não corta o vídeo principal se o som estiver ligado
+    }), {rootMargin: '200px 0px', threshold: 0.01});
+    vids.forEach(v => vio.observe(v));
+    const unlock = () => {
+      vids.forEach(v => {
+        if (visible.has(v)) tryPlay(v);
+        else { const p = v.play(); if (p && p.then) p.then(() => { if (!visible.has(v)) v.pause(); }).catch(() => {}); }
+      });
+      ['touchstart', 'pointerdown', 'click', 'keydown', 'scroll'].forEach(ev => removeEventListener(ev, unlock, true));
+    };
+    ['touchstart', 'pointerdown', 'click', 'keydown', 'scroll'].forEach(ev => addEventListener(ev, unlock, {capture: true, passive: true}));
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) visible.forEach(tryPlay); });
+  })();
+</script>
+</body>
+</html>

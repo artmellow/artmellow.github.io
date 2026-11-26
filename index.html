@@ -205,23 +205,25 @@
   .e-reuse img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   /* Container de vídeo: fundo branco por trás, vídeo centralizado e limitado a 920px de altura */
   .vbox{background:#fff;display:flex;justify-content:center}
-  .vbox-gray{background:#f3f3f3}
+  .vbox-gray{background:#f5f5f5}   /* na tela, este CSS e o fundo #F4F4F4 do vídeo aparecem com o mesmo cinza */
   .chapter .media.media-follow{margin-top:calc(var(--u)*2)} /* segunda mídia do mesmo capítulo */            /* igual ao fundo exportado do vídeo de decisões locais */
   /* respiro em cima e embaixo (como mockups num palco), mantendo o total em até 920px */
-  .vbox{padding:clamp(32px, 4%, 64px) 0}     /* no mínimo 32px em cima e embaixo */
+  :root{--vpad:clamp(24px, 2vw, 40px)}
+  .vbox{padding:var(--vpad) 0;container-type:inline-size}   /* respiro curto em cima e embaixo */
   /* vídeo sem fundo (branco sobre branco): sem respiro em cima e compensando a margem branca do próprio vídeo,
      para a distância visual até o título ficar igual à das mídias com container colorido */
-  .media .vbox.vbox-bare{padding-top:0;margin-top:calc(16px - min(80 / 1920 * 100%, 80 / 1080 * var(--vh-max)))}
+  .media .vbox.vbox-bare{padding-top:0;margin-top:calc(16px - min(80 / 1920 * 100%, 80 / 1080 * (50% - 2 * var(--vpad))))}
   /* vídeo que ocupa o container inteiro: sem respiro nem fundo do container, então não há emenda de cor */
   .media .vbox.vbox-fill{padding:0;background:transparent}
   .vbox.vbox-fill video{max-width:none}
   /* altura máxima confortável para os vídeos de linha única: o vídeo nunca passa de ~62% da tela (600px no máximo),
      e o container cinza cresce na largura, não na altura */
-  :root{--vh-max:clamp(320px, 62vh, 600px)}
-  .vbox video{width:auto;height:auto;max-width:100%;max-height:var(--vh-max);display:block}
+  /* container de linha única na proporção 2:1 (como nas referências): o vídeo ocupa a altura toda,
+     menos o respiro, e o cinza preenche as laterais */
+  .vbox video{width:auto;height:auto;max-width:100%;max-height:calc(50cqw - 2 * var(--vpad));display:block}
   @media (max-width:759px){
     .media .vbox.vbox-gray{padding:0}   /* no celular o vídeo ocupa o container inteiro: sem emenda entre os cinzas */
-    .vbox video{width:100%}
+    .vbox video{width:100%;max-height:none}
   }
 
 

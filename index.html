@@ -353,6 +353,12 @@
   /* No vídeo sangrado, o botão fica centralizado na base: longe da barra de rolagem do desktop e sempre visível. */
   .media.bleed .sound{right:auto;left:50%;bottom:calc(var(--gutter) + 40px);transform:translateX(-50%)}   /* centralizado na base do vídeo */
   .sound:hover{background:#fff;color:#111}
+  /* No celular o botão sai de cima do vídeo e fica logo abaixo dele, centralizado */
+  @media (max-width:759px){
+    .media.bleed > .player{display:flex;flex-direction:column;align-items:center;background:transparent;overflow:visible}
+    .media.bleed > .player video{width:100%}
+    .media.bleed .sound{position:static;transform:none;margin-top:16px}
+  }
 
   .breathe{text-wrap:balance;
     margin:calc(var(--u)*24) 0 0 var(--indent);
